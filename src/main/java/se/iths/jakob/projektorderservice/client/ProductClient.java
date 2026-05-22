@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClient;
+import se.iths.jakob.projektorderservice.dto.ProductInfo;
 import se.iths.jakob.projektorderservice.dto.ProductStockRequest;
 
 import java.util.List;
