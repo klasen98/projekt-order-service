@@ -8,6 +8,6 @@ public record OrderResponseDto(
         LocalDateTime orderDate,
         String customerName,
         double totalPrice,
-        List<OrderItemResponseDto> orderitems
+        List<OrderItemResponseDto> orderItems
 ) {
 }
