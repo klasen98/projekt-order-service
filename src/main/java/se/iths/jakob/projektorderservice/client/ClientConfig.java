@@ -10,7 +10,7 @@ public class ClientConfig {
 
     @Bean
     public RestClient productRestClient(
-            @Value("${product-service.base-url}")
+            @Value("${app.product-service-url}")
             String baseUrl) {
         return RestClient.builder()
                 .baseUrl(baseUrl)

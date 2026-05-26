@@ -1,27 +1,23 @@
 package se.iths.jakob.projektorderservice.client;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import se.iths.jakob.projektorderservice.dto.ProductInfo;
 import se.iths.jakob.projektorderservice.dto.ProductStockRequest;
 
 import java.util.List;
 
-@Configuration
+@Component
 @RequiredArgsConstructor
 public class ProductClient {
 
-    private RestClient restClient;
+    private final RestClient productRestClient;
 
-
-    public ProductClient(RestClient restClient) {
-        this.restClient = restClient;
-    }
 
     public List<ProductInfo> decreaseStock(List<ProductStockRequest> items) {
-        return restClient.post()
+        return productRestClient.post()
                 .uri("/products/stock/decrease")
                 .body(items)
                 .retrieve()
