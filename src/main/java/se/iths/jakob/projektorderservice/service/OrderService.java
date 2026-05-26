@@ -35,12 +35,12 @@ public class OrderService {
                 .toList();
 
         // anropa productservice
-        List<ProductInfo> productInfos = productClient.decreaseStock(stockRequests);
+        List<ProductInfo> productinfos = productClient.decreaseStock(stockRequests);
 
         // bygg order items
         List<OrderItem> orderItems = new ArrayList<>();
-        for (int i = 0; i < productInfos.size(); i++) {
-            ProductInfo Info = productInfos.get(i);
+        for (int i = 0; i < productinfos.size(); i++) {
+            ProductInfo Info = productinfos.get(i);
             int quan = request.items().get(i).quantity();
 
             OrderItem item = new OrderItem();
@@ -92,9 +92,10 @@ public class OrderService {
         );
     }
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
-
+    public List<OrderResponseDto> getAllOrders() {
+        return orderRepository.findAll().stream()
+                .map(this::mapToDto)
+                .toList();
     }
 
 
