@@ -27,17 +27,17 @@ public class OrderService {
     @Value("${rabbitmq.queue.email}")
     private String emailQueue;
 
-    public OrderResponseDto createOrder(CreateOrderRequest request, String customerEmail) {
+    public OrderResponseDto createOrder(CreateOrderRequest request, String customerEmail, String bearerToken) {
 
         // bygg lista till product service
         List<ProductStockRequest> stockRequests = request.items().stream()
                 .map(i -> new ProductStockRequest(i.productId(), i.quantity()))
                 .toList();
 
-        // anropa productservice
-        List<ProductInfo> productinfos = productClient.decreaseStock(stockRequests);
+        // anropa product service metoden
+        List<ProductInfo> productinfos = productClient.decreaseStock(stockRequests, bearerToken);
 
-        // bygg order items
+        // skapar orderrader och sparar en snapshot
         List<OrderItem> orderItems = new ArrayList<>();
         for (int i = 0; i < productinfos.size(); i++) {
             ProductInfo Info = productinfos.get(i);
@@ -52,10 +52,14 @@ public class OrderService {
         }
         // bygga ordern
         Order order = new Order();
-        order.setCustomerName(customerEmail);
-        order.setOrderDate(LocalDateTime.now());
+        order.setCustomerName(customerEmail);  // kundens mail
+        order.setOrderDate(LocalDateTime.now()); // dagens datum
+
+        // skapar en unik orderrad till ordern
         orderItems.forEach(item -> item.setOrder(order));
         order.setOrderItems(orderItems);
+
+        // totala priset på ordern
         order.setTotalPrice(orderItems.stream()
                 .mapToDouble(i -> i.getPrice() * i.getQuantity()).sum());
 
@@ -66,18 +70,22 @@ public class OrderService {
                 .map(i -> new OrderItemMessage(i.getName(), i.getQuantity(), i.getPrice()))
                 .toList();
 
+        // skapar ett meddelande
         OrderConfirmationMessage message = new OrderConfirmationMessage(
                 customerEmail,
                 messageItems,
                 saved.getTotalPrice());
 
+        // Skickar till rabbitMQ kön
         rabbitTemplate.convertAndSend(emailQueue, message);
 
+        // mappar till dto
         return mapToDto(saved);
 
 
     }
 
+    // hjälp metod för att skapa en order från databasen
     private OrderResponseDto mapToDto(Order order) {
         List<OrderItemResponseDto> items = order.getOrderItems().stream()
                 .map(i -> new OrderItemResponseDto(i.getName(), i.getPrice(), i.getQuantity()))
@@ -92,6 +100,7 @@ public class OrderService {
         );
     }
 
+    // hämtar alla orders och mappar dem till dto
     public List<OrderResponseDto> getAllOrders() {
         return orderRepository.findAll().stream()
                 .map(this::mapToDto)
