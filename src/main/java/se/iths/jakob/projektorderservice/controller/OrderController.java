@@ -23,10 +23,17 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<OrderResponseDto> createOrder(
             @RequestBody CreateOrderRequest request,
-            @AuthenticationPrincipal Jwt jwt) {
+            @AuthenticationPrincipal Jwt jwt) { // jwt token
 
+        // strängen vi skickar till product service
+        String bearerToken = "Bearer " + jwt.getTokenValue();
+
+        // kundens mail
         String customerEmail = jwt.getSubject();
-        OrderResponseDto response = orderService.createOrder(request, customerEmail);
+
+        // anropar service metoden
+        OrderResponseDto response = orderService.createOrder(request, customerEmail, bearerToken);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
