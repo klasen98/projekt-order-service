@@ -10,7 +10,7 @@
     </parent>
     <groupId>se.iths.jakob</groupId>
     <artifactId>projekt-order-service</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>projekt-order-service</name>
     <description>projekt-order-service</description>
     <url/>
