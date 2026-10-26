@@ -18,26 +18,19 @@ PostgreSQL på Neon. H2 används för tester.
 - RABBITMQ_EMAIL_QUEUE = Kön alla ordrar skickas till
 - RABBITMQ_HOST, RABBITMQ_PASSWORD, RABBITMQ_PORT, RABBITMQ_USERNAME och RABBITMQ_VIRTUAL_HOST = RabbitMQ anslutning.
 
-## Hur webshoppen fungerar
-- **Webshop-frontend** – Användarvy och anropar backend via gateway-service.
-- **Gateway-service** – Dörren till backend
-- **Auth-service** – användare och jwt hantering.
-- **Product-service** – produkter och lagersaldo.
-- **Order-service** –  sköter ordrar. Minskar lagersaldot och skickar orderbekräftelse via RabbitMQ.
-- **Email-service** – skickar orderbekräftelser.
-
-## Webshoppens repositorys
-- Auth-service: https://github.com/katttiger/auth-service
-- Product-service: https://github.com/Joajak92/product-service
-- Email-service: https://github.com/joel-schou/email-service 
-- Gateway-service: https://github.com/joel-schou/gateway-service 
-- Webshop-frontend: https://github.com/Joajak92/webshop-frontend
+## Övriga tjänster
+- Auth-service(Användare och JWT): https://github.com/katttiger/auth-service
+- Product-service(Produkter och lagersaldo): https://github.com/Joajak92/product-service
+- Email-service(Orderbekräftelse): https://github.com/joel-schou/email-service 
+- Gateway-service(Dörr till backend): https://github.com/joel-schou/gateway-service 
+- Webshop-frontend(Användarvy): https://github.com/Joajak92/webshop-frontend
 
 ## Starta lokalt
 1. Sätt miljövariablerna.
 2. Starta auth-service och product-service.
-3. Starta applikationen på Mac: ./mvnw spring-boot:run
-         Windows: mvnw.cmd spring-boot:run
+3. Starta applikationen:
+   - Mac: ./mvnw spring-boot:run
+   - Windows: mvnw.cmd spring-boot:run
 4. Nås på http://localhost:7500
    
 
