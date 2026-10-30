@@ -8,6 +8,9 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Entitet klass för order. Sparar e-post, orderdatum, totalpris och orderrader.
+ */
 @Getter
 @Setter
 @Entity
@@ -26,6 +29,4 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
-
-
 }

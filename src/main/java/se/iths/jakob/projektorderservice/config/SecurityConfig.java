@@ -19,10 +19,17 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Säkerhetsklass för order-service.
+ * JWT-validering och CORS.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    /**
+     * Kopplar frontend med backend och tillåter anrop.
+     */
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -37,6 +44,9 @@ public class SecurityConfig {
         return source;
     }
 
+    /**
+     * Sköter JWT Spring Security roller.
+     */
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
@@ -50,6 +60,9 @@ public class SecurityConfig {
         return converter;
     }
 
+    /**
+     * Bestämmer vilka endpoints som kräver inloggning och roll.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
@@ -71,6 +84,9 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Skapar en JwtDecoder som validerar token mot auth-service publika nycklar.
+     */
     @Bean
     public JwtDecoder jwtDecoder(@Value("${app.auth-server-url}") String authServerUrl) {
         NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder

@@ -8,6 +8,9 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Konfigurerar så att du kan testa applikationen på Swagger.
+ */
 @Configuration
 public class OpenApiConfig {
 

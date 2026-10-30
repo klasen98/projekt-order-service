@@ -10,12 +10,18 @@ import se.iths.jakob.projektorderservice.dto.ProductStockRequest;
 
 import java.util.List;
 
+/**
+ * Klienten som anropar product-service.
+ */
 @Component
 @RequiredArgsConstructor
 public class ProductClient {
 
     private final RestClient productRestClient;
 
+    /**
+     * Minskar lagersaldot för vald produkt och returnerar produktinformationen.
+     */
     public List<ProductInfo> decreaseStock(List<ProductStockRequest> items, String bearerToken) {
         return productRestClient.post()
                 .uri("/products/stock/decrease")
