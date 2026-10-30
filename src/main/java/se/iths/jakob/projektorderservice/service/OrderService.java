@@ -16,6 +16,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service för hantering av ordrar.
+ */
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -27,6 +30,9 @@ public class OrderService {
     @Value("${rabbitmq.queue.email}")
     private String emailQueue;
 
+    /**
+     * Skapar en order, minskar lagersaldot och skickar sedan orderbekräftelse via RabbitMQ.
+     */
     public OrderResponseDto createOrder(CreateOrderRequest request, String customerEmail, String bearerToken) {
 
         // bygg lista till product service
@@ -79,7 +85,7 @@ public class OrderService {
         // Skickar till rabbitMQ kön
         rabbitTemplate.convertAndSend(emailQueue, message);
 
-        // mappar till dto
+
         return mapToDto(saved);
 
 
@@ -100,7 +106,10 @@ public class OrderService {
         );
     }
 
-    // hämtar alla orders och mappar dem till dto
+
+    /**
+     * Hämtar alla ordrar som DTO:er.
+     */
     public List<OrderResponseDto> getAllOrders() {
         return orderRepository.findAll().stream()
                 .map(this::mapToDto)

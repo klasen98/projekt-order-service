@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+/**
+ * Entitets klass för orderrader. Sparar en snapshot av produkts namn och pris vid beställning.
+ */
 @Getter
 @Setter
 @Entity

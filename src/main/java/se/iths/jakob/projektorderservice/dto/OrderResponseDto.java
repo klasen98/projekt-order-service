@@ -3,6 +3,9 @@ package se.iths.jakob.projektorderservice.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Svar till klienten med id, datum, kund, totalpris och orderrader.
+ */
 public record OrderResponseDto(
         Long id,
         LocalDateTime orderDate,

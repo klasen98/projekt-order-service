@@ -13,6 +13,9 @@ import se.iths.jakob.projektorderservice.service.OrderService;
 
 import java.util.List;
 
+/**
+ * REST-controller för orderrelaterade endpoints.
+ */
 @RestController
 @RequestMapping("/orders")
 @RequiredArgsConstructor
@@ -20,10 +23,13 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    /**
+     * Skapar en order med jwt som sedan skickas vidare till product-service.
+     */
     @PostMapping
     public ResponseEntity<OrderResponseDto> createOrder(
             @RequestBody CreateOrderRequest request,
-            @AuthenticationPrincipal Jwt jwt) { // jwt token
+            @AuthenticationPrincipal Jwt jwt) {
 
         // strängen vi skickar till product service
         String bearerToken = "Bearer " + jwt.getTokenValue();
@@ -37,6 +43,10 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+
+    /**
+     * Hämtar alla ordrar
+     */
     @GetMapping
     public ResponseEntity<List<OrderResponseDto>> getAllOrders() {
         return ResponseEntity.ok(orderService.getAllOrders());

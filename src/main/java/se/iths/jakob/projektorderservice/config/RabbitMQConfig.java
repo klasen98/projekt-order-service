@@ -9,11 +9,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Konfigurerar RabbitMQ för order-service.
+ */
 @Configuration
 public class RabbitMQConfig {
 
     @Value("${rabbitmq.queue.email}")
     private String emailQueue;
+
 
     @Bean
     public Queue queue() {
